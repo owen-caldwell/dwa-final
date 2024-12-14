@@ -1,0 +1,26 @@
+.Header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid black;
+  display: flex;
+  background-color: rgb(65, 135, 255);
+  padding: .5em;
+  margin-bottom: 1em;
+}
+
+.Nav ul {
+  display: flex;
+  gap: 20px;
+  list-style: none;
+}
+
+.Nav a {
+  color: white;
+  text-decoration: none;
+}
+
+.Nav a:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}

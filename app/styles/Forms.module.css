@@ -1,0 +1,27 @@
+.Page{
+    display: grid;
+    grid-template-columns: 150px 628px;
+    gap: 1em;
+}
+
+.Form{
+    display: block;
+}
+.Form label {
+    color: darkgray;
+    font-weight: bold;
+    font-size: 14px;
+}
+.Form input {
+    display: flex;
+    height: 2em;
+    margin-bottom: 10px;
+    border-radius: 0px;
+  }
+.Form button {
+    background-color: rgb(65, 135, 255);
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 8px;
+}
