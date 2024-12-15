@@ -52,8 +52,7 @@ export default function Home() {
     }
   }, [authUser, router]);
   return (
-    <div className={styles.Page}>
-      <Sidebar />
+    <div className={styles.PageAuth}>
       {authUser && (
         <>
           <div>
@@ -66,33 +65,36 @@ export default function Home() {
             </h2>
             <span>Recent Posts</span>
             {posts.map((post) => (
-                <div className={styles.Post} key={post.id}>
-                  <h4>{post.title}</h4>
-                  <p>{post.content}</p>
-                  <small>
-                    {new Date(post.timestamp.seconds * 1000).toLocaleString()}
-                  </small>
-                </div>
-              ))}
+              <div className={styles.Post} key={post.id}>
+                <h4>{post.title}</h4>
+                <p>{post.content}</p>
+                <small>
+                  {new Date(post.timestamp.seconds * 1000).toLocaleString()}
+                </small>
+              </div>
+            ))}
           </div>
         </>
       )}
       {!authUser && (
-        <div>
-          <h2>
-            Facebook is an online directory that connects people through social
-            networks at schools.
-          </h2>
-          <p>
-            The site is open to a lot of schools, but not everywhere yet. We're
-            working on it.
-          </p>
-          <p>You can now use Facebook to:</p>
-          <ul>
-            <li>Look up people at your school.</li>
-            <li>See how people know each other.</li>
-            <li>Find people in your classes and groups.</li>
-          </ul>
+        <div className={styles.Page}>
+          <Sidebar />
+          <div>
+            <h2>
+              Facebook is an online directory that connects people through
+              social networks at schools.
+            </h2>
+            <p>
+              The site is open to a lot of schools, but not everywhere yet.
+              We're working on it.
+            </p>
+            <p>You can now use Facebook to:</p>
+            <ul>
+              <li>Look up people at your school.</li>
+              <li>See how people know each other.</li>
+              <li>Find people in your classes and groups.</li>
+            </ul>
+          </div>
         </div>
       )}
     </div>
