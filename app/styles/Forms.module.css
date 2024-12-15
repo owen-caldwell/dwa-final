@@ -3,7 +3,9 @@
     grid-template-columns: 150px 628px;
     gap: 1em;
 }
-
+.Link {
+    color: rgb(65, 135, 255);
+}
 .Form{
     display: block;
 }

@@ -1,19 +1,30 @@
 "use client";
-import {React, useState} from "react";
+import { React, useState, useEffect } from "react";
 import styles from "@/app/styles/createpost.module.css"
 import { useAuth } from "@/app/context/AuthUserContext";
 import { db } from "@/app/lib/firebase"; 
 import { collection, addDoc, serverTimestamp, doc, getDoc } from "firebase/firestore";
-import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 export default function CreatePost() {
   const [formData, setFormData] = useState({ title: "", content: "" });
   const [error, setError] = useState(null);
-  const [user, setUser] = useState(null);
+  const [userData, setUserData] = useState(null);
 
   const { authUser } = useAuth();
   const router = useRouter();
+
+  useEffect(() => {
+    if (authUser) {
+      const fetchUserData = async () => {
+        const userDoc = await getDoc(doc(db, "users", authUser.uid));
+        if (userDoc.exists()) {
+          setUserData(userDoc.data());
+        }
+      };
+      fetchUserData();
+    }
+  }, [authUser]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -29,65 +40,39 @@ export default function CreatePost() {
       return;
     }
 
+    if (!userData || !userData.displayName) {
+      setError("User displayName not found in Firestore.");
+      return;
+    }
+
     try {
-      const userDoc = await getDoc(doc(db, "users", user.uid));
-      const userData = userDoc.exists() ? userDoc.data() : null;
-
-      if (!userData || !userData.displayName) {
-        throw new Error("User displayName not found in Firestore.");
-      }
-
       const postsRef = collection(db, "posts");
       await addDoc(postsRef, {
         title: formData.title || "Untitled",
         content: formData.content || "No content provided.",
         timestamp: serverTimestamp(),
         displayName: userData.displayName,
-        userId: user.uid,
+        userId: authUser.uid,
       });
-
-      alert("Post created successfully!");
-      // router.push("/dashboard");
+      router.push("/");
     } catch (error) {
-      console.error("Error creating post:", error.message);
-      setError("Failed to create post. Please try again.");
+      setError("Error creating post: " + error.message);
     }
   };
 
   return (
     <div>
-      <div className={styles.createPostCard}>
-        <div className={styles.createPostHeader}>Create Post</div>
-        <div className={styles.createPostContent}>
-          {error && <p className={styles.errorMessage}>{error}</p>}
-          <form onSubmit={handleSubmit}>
-            <label className={styles.inputLabel}>
-              Post Title:
-              <input
-                type="text"
-                name="title"
-                value={formData.title}
-                onChange={handleInputChange}
-                required
-                className={styles.inputBox}
-              />
-            </label>
-            <label className={styles.inputLabel}>
-              Post Content:
-              <textarea
-                name="content"
-                value={formData.content}
-                onChange={handleInputChange}
-                required
-                className={styles.inputBox}
-              />
-            </label>
-            <button type="submit" className={styles.submitButton}>
-              Create Post
-            </button>
-          </form>
-        </div>
-      </div>
+      <h1>Create a New Post</h1>
+      {error && <p style={{ color: "red" }}>{error}</p>}
+      <form onSubmit={handleSubmit}>
+        <label htmlFor="title">Title:</label>
+        <input type="text" name="title" value={formData.title} onChange={handleInputChange} />
+
+        <label htmlFor="content">Content:</label>
+        <textarea name="content" value={formData.content} onChange={handleInputChange} />
+
+        <button type="submit">Create Post</button>
+      </form>
     </div>
   );
 }

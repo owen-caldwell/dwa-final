@@ -1,25 +1,37 @@
 "use client";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Sidebar from "./components/sidebar";
 import styles from "@/app/styles/Forms.module.css";
 import { useAuth } from "@/app/context/AuthUserContext";
-import { useEffect } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "@/app/lib/firebase";
+
 
 export default function Home() {
   const { authUser } = useAuth();
   const router = useRouter();
+  const [username, setUsername] = useState("");
 
   useEffect(() => {
-    if (authUser) router.push("/");
-  }, [authUser]);
-
+    if (authUser) {
+      const fetchUserData = async () => {
+        const userDoc = await getDoc(doc(db, "users", authUser.uid));
+        if (userDoc.exists()) {
+          setUsername(userDoc.data().displayName);
+        }
+      };
+      fetchUserData();
+      router.push("/");
+    }
+  }, [authUser, router]);
   return (
     <div className={styles.Page}>
       <Sidebar />
       {authUser && (
         <>
-          <h2>Welcome back!</h2>
+          <h2>Welcome back {username}! <Link className={styles.Link} href="/create">Click here</Link> to create a new post</h2>
         </>
       )}
       {!authUser && (
