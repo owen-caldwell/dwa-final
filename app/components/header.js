@@ -25,14 +25,6 @@ export default function Header() {
                 </li>
               </>
             )}
-
-            {!authUser && (
-              <>
-                <li>
-                  <Link href="/create">Create user</Link>
-                </li>
-              </>
-            )}
           </ul>
         </div>
       </nav>
