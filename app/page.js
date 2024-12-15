@@ -17,22 +17,29 @@ export default function Home() {
   return (
     <div className={styles.Page}>
       <Sidebar />
-      <div>
-        <h2>
-          Facebook is an online directory that connects people through social
-          networks at schools.
-        </h2>
-        <p>
-          The site is open to a lot of schools, but not everywhere yet. We're
-          working on it.
-        </p>
-        <p>You can now use Facebook to:</p>
-        <ul>
-          <li>Look up people at your school.</li>
-          <li>See how people know each other.</li>
-          <li>Find people in your classes and groups.</li>
-        </ul>
-      </div>
+      {authUser && (
+        <>
+          <h2>Welcome back!</h2>
+        </>
+      )}
+      {!authUser && (
+        <div>
+          <h2>
+            Facebook is an online directory that connects people through social
+            networks at schools.
+          </h2>
+          <p>
+            The site is open to a lot of schools, but not everywhere yet. We're
+            working on it.
+          </p>
+          <p>You can now use Facebook to:</p>
+          <ul>
+            <li>Look up people at your school.</li>
+            <li>See how people know each other.</li>
+            <li>Find people in your classes and groups.</li>
+          </ul>
+        </div>
+      )}
     </div>
   );
 }
