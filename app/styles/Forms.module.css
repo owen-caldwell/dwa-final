@@ -35,3 +35,38 @@
     border-bottom: 1px solid rgb(65, 135, 255);;
     background-color: rgb(240, 240, 240);
 }
+.CreatePostWrapper {
+    display: block;
+    margin: 1em 0 1em 0;
+    padding-left: 10px;
+    max-width: 500px;
+    border-top: 1px solid rgb(65, 135, 255);;
+    border-bottom: 1px solid rgb(65, 135, 255);;
+    background-color: rgb(240, 240, 240);
+}
+.CreatePostForm{
+    display: flex;
+    flex-direction: column;
+    padding: 1em;
+}
+.CreatePostForm label {
+    color: darkgray;
+    font-weight: bold;
+    font-size: 14px;
+    width: 100%;
+}
+.CreatePostForm input {
+    display: flex;
+    height: 2em;
+    margin-bottom: 10px;
+    border-radius: 0px;
+  }
+.CreatePostForm button {
+    background-color: rgb(65, 135, 255);
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 8px;
+    max-width: 200px;
+    margin-top: 2em;
+}

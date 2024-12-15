@@ -1,9 +1,16 @@
 "use client";
 import { React, useState, useEffect } from "react";
 import { useAuth } from "@/app/context/AuthUserContext";
-import { db } from "@/app/lib/firebase"; 
-import { collection, addDoc, serverTimestamp, doc, getDoc } from "firebase/firestore";
+import { db } from "@/app/lib/firebase";
+import {
+  collection,
+  addDoc,
+  serverTimestamp,
+  doc,
+  getDoc,
+} from "firebase/firestore";
 import { useRouter } from "next/navigation";
+import styles from "@/app/styles/Forms.module.css";
 
 export default function CreatePost() {
   const [formData, setFormData] = useState({ title: "", content: "" });
@@ -65,15 +72,26 @@ export default function CreatePost() {
     <div>
       <h1>Create a New Post</h1>
       {error && <p style={{ color: "red" }}>{error}</p>}
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="title">Title:</label>
-        <input type="text" name="title" value={formData.title} onChange={handleInputChange} />
+      <div className={styles.CreatePostWrapper}>
+        <form className={styles.CreatePostForm} onSubmit={handleSubmit}>
+          <label htmlFor="title">Title:</label>
+          <input
+            type="text"
+            name="title"
+            value={formData.title}
+            onChange={handleInputChange}
+          />
 
-        <label htmlFor="content">Content:</label>
-        <textarea name="content" value={formData.content} onChange={handleInputChange} />
+          <label htmlFor="content">Content:</label>
+          <textarea
+            name="content"
+            value={formData.content}
+            onChange={handleInputChange}
+          />
 
-        <button type="submit">Create Post</button>
-      </form>
+          <button type="submit">Create Post</button>
+        </form>
+      </div>
     </div>
   );
 }
