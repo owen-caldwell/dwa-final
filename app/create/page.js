@@ -1,6 +1,5 @@
 "use client";
 import { React, useState, useEffect } from "react";
-import styles from "@/app/styles/createpost.module.css"
 import { useAuth } from "@/app/context/AuthUserContext";
 import { db } from "@/app/lib/firebase"; 
 import { collection, addDoc, serverTimestamp, doc, getDoc } from "firebase/firestore";
