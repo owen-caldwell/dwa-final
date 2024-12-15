@@ -20,18 +20,19 @@ export default function LoginForm() {
       const username = e.currentTarget.username.value;
       const action = e.nativeEvent.submitter.name;
 
-      if (action === "register") {
-        const userCredential = await createUserWithEmailAndPassword(
-          email,
-          password
-        );
-        const user = userCredential.user;
-        await setDoc(doc(db, "users", user.uid), {
-          uid: user.uid,
-          displayName: username || "",
-        });
-      } else if (action === "login") {
-        signInWithEmailAndPassword(email, password);
+      try {
+        if (action === 'register') {
+          const userCredential = await createUserWithEmailAndPassword(email, password);
+          const user = userCredential.user;
+          await setDoc(doc(db, "users", user.uid), {
+            uid: user.uid,
+            displayName: username || "",
+          });
+        } else if (action === 'login') {
+          await signInWithEmailAndPassword(email, password);
+        }
+      } catch (error) {
+        setError(error.message); // Set error message
       }
     },
     [createUserWithEmailAndPassword, signInWithEmailAndPassword]
