@@ -5,14 +5,22 @@ import styles from "@/app/styles/Forms.module.css";
 import { useAuth } from "@/app/context/AuthUserContext";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { doc, getDoc } from "firebase/firestore";
+import {
+  doc,
+  getDoc,
+  collection,
+  query,
+  where,
+  orderBy,
+  getDocs,
+} from "firebase/firestore";
 import { db } from "@/app/lib/firebase";
-
 
 export default function Home() {
   const { authUser } = useAuth();
   const router = useRouter();
   const [username, setUsername] = useState("");
+  const [posts, setPosts] = useState([]);
 
   useEffect(() => {
     if (authUser) {
@@ -22,7 +30,24 @@ export default function Home() {
           setUsername(userDoc.data().displayName);
         }
       };
+
+      const fetchUserPosts = async () => {
+        const postsRef = collection(db, "posts");
+        const q = query(
+          postsRef,
+          where("userId", "==", authUser.uid),
+          orderBy("timestamp", "desc")
+        );
+        const querySnapshot = await getDocs(q);
+        const userPosts = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setPosts(userPosts);
+      };
+
       fetchUserData();
+      fetchUserPosts();
       router.push("/");
     }
   }, [authUser, router]);
@@ -31,7 +56,25 @@ export default function Home() {
       <Sidebar />
       {authUser && (
         <>
-          <h2>Welcome back {username}! <Link className={styles.Link} href="/create">Click here</Link> to create a new post</h2>
+          <div>
+            <h2>
+              Welcome back {username}!{" "}
+              <Link className={styles.Link} href="/create">
+                Click here
+              </Link>{" "}
+              to create a new post
+            </h2>
+            <span>Recent Posts</span>
+            {posts.map((post) => (
+                <div className={styles.Post} key={post.id}>
+                  <h4>{post.title}</h4>
+                  <p>{post.content}</p>
+                  <small>
+                    {new Date(post.timestamp.seconds * 1000).toLocaleString()}
+                  </small>
+                </div>
+              ))}
+          </div>
         </>
       )}
       {!authUser && (

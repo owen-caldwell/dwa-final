@@ -53,9 +53,11 @@ export default function CreatePost() {
         displayName: userData.displayName,
         userId: authUser.uid,
       });
+      alert("Post created successfully!");
       router.push("/");
     } catch (error) {
-      setError("Error creating post: " + error.message);
+      console.error("Error creating post:", error.message);
+      setError("Failed to create post. Please try again.");
     }
   };
 

@@ -27,3 +27,11 @@
     font-weight: bold;
     padding: 8px;
 }
+.Post {
+    display: block;
+    margin: 1em 0 1em 0;
+    padding-left: 10px;
+    border-top: 1px solid rgb(65, 135, 255);;
+    border-bottom: 1px solid rgb(65, 135, 255);;
+    background-color: rgb(240, 240, 240);
+}
