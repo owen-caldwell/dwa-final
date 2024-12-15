@@ -31,23 +31,19 @@ export default function Home() {
         }
       };
 
-      const fetchUserPosts = async () => {
+      const fetchAllPosts = async () => {
         const postsRef = collection(db, "posts");
-        const q = query(
-          postsRef,
-          where("userId", "==", authUser.uid),
-          orderBy("timestamp", "desc")
-        );
+        const q = query(postsRef, orderBy("timestamp", "desc"));
         const querySnapshot = await getDocs(q);
-        const userPosts = querySnapshot.docs.map((doc) => ({
+        const allPosts = querySnapshot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
         }));
-        setPosts(userPosts);
+        setPosts(allPosts);
       };
 
       fetchUserData();
-      fetchUserPosts();
+      fetchAllPosts();
       router.push("/");
     }
   }, [authUser, router]);
@@ -68,6 +64,8 @@ export default function Home() {
               <div className={styles.Post} key={post.id}>
                 <h4>{post.title}</h4>
                 <p>{post.content}</p>
+                <small>Posted by: {post.displayName}</small>
+                <br />
                 <small>
                   {new Date(post.timestamp.seconds * 1000).toLocaleString()}
                 </small>
