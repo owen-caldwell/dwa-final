@@ -15,6 +15,8 @@ import {
   getDocs,
 } from "firebase/firestore";
 import { db } from "@/app/lib/firebase";
+import zuck from "@/app/public/zuck-surf.jpg";
+import Image from "next/image";
 
 export default function Home() {
   const { authUser } = useAuth();
@@ -92,6 +94,7 @@ export default function Home() {
               <li>See how people know each other.</li>
               <li>Find people in your classes and groups.</li>
             </ul>
+            <Image className={styles.zImg} src={zuck} alt="Mark Zuckerberg riding the waves"/>
           </div>
         </div>
       )}
