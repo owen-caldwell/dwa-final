@@ -15,6 +15,7 @@ import styles from "@/app/styles/Forms.module.css";
 export default function CreatePost() {
   const [formData, setFormData] = useState({ title: "", content: "" });
   const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
   const [userData, setUserData] = useState(null);
 
   const { authUser } = useAuth();
