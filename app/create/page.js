@@ -40,6 +40,7 @@ export default function CreatePost() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
+    setSuccess(null);
 
     if (!authUser) {
       setError("You must be logged in to create a post.");
@@ -60,7 +61,7 @@ export default function CreatePost() {
         displayName: userData.displayName,
         userId: authUser.uid,
       });
-      alert("Post created successfully!");
+      setSuccess("Post created successfully!");
       router.push("/");
     } catch (error) {
       console.error("Error creating post:", error.message);
